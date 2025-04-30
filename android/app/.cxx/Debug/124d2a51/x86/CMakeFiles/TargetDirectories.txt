@@ -1,0 +1,2 @@
+D:/IMPORTANT/INNOWISE/imgur-develop/android/app/.cxx/Debug/124d2a51/x86/CMakeFiles/edit_cache.dir
+D:/IMPORTANT/INNOWISE/imgur-develop/android/app/.cxx/Debug/124d2a51/x86/CMakeFiles/rebuild_cache.dir
