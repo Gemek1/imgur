@@ -12,15 +12,17 @@ class SignUpScreenContent extends StatefulWidget {
 }
 
 class _SignUpScreenContentState extends State<SignUpScreenContent> {
-  late final AuthBloc _bloc;
-  final TextEditingController _emailTextEditingController = TextEditingController();
-  final TextEditingController _passwordTextEditingController = TextEditingController();
+  late final AuthCubit _bloc;
+  final TextEditingController _emailTextEditingController =
+      TextEditingController();
+  final TextEditingController _passwordTextEditingController =
+      TextEditingController();
   bool _obscurePassword = true;
 
   @override
   void initState() {
     super.initState();
-    _bloc = context.read<AuthBloc>();
+    _bloc = context.read<AuthCubit>();
   }
 
   @override
@@ -29,7 +31,7 @@ class _SignUpScreenContentState extends State<SignUpScreenContent> {
       appBar: AppBar(title: const Text('Sign up')),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: BlocBuilder<AuthBloc, AuthState>(
+        child: BlocBuilder<AuthCubit, AuthState>(
           bloc: _bloc,
           builder: (BuildContext context, AuthState state) {
             if (state.isLoading) {
@@ -67,11 +69,9 @@ class _SignUpScreenContentState extends State<SignUpScreenContent> {
                   ),
                   const SizedBox(height: 16),
                   ElevatedButton(
-                    onPressed: () => _bloc.add(
-                      SignUpWithCredentials(
-                        login: _emailTextEditingController.text,
-                        password: _passwordTextEditingController.text,
-                      ),
+                    onPressed: () => _bloc.onSignUpWithCredentials(
+                      login: _emailTextEditingController.text,
+                      password: _passwordTextEditingController.text,
                     ),
                     child: const Text('Create account'),
                   ),
@@ -79,9 +79,9 @@ class _SignUpScreenContentState extends State<SignUpScreenContent> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text("Already have an account?"),
+                      const Text('Already have an account?'),
                       TextButton(
-                          onPressed: () => _bloc.add(NavigateToLogin()),
+                          onPressed: () => _bloc.onNavigateToSignIn(),
                           child: const Text('Login')),
                     ],
                   ),
