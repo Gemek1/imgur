@@ -50,7 +50,7 @@ TextTheme _getTextTheme() {
 
 InputDecorationTheme _getInputDecorationTheme() {
   return InputDecorationTheme(
-    hintStyle: AppFonts.normal13.copyWith(color: _appColors.primaryBg),
+    hintStyle: AppFonts.normal13.copyWith(color: Colors.grey), // ← контрастнее
     border: OutlineInputBorder(
       borderRadius: const BorderRadius.all(
         Radius.circular(AppDimens.BORDER_RADIUS_12),
@@ -87,6 +87,6 @@ InputDecorationTheme _getInputDecorationTheme() {
         width: 2,
       ),
     ),
-    labelStyle: AppFonts.normal13.copyWith(color: _appColors.primaryBg),
+    labelStyle: AppFonts.normal13.copyWith(color: Colors.black), // ← читаемо
   );
 }

@@ -1,4 +1,4 @@
-import 'package:auth/src/domain/lib/domain.dart';
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:navigation/navigation.dart';
@@ -46,6 +46,7 @@ class AuthCubit extends Cubit<AuthState> {
 
       if (createdUser != null) {
         // TODO():  Add some conditional redirection on successfully signed up logic
+        await _appRouter.replace(const LoginScreen());
         debugPrint('User signed up event occurred!');
       }
     } on Exception catch (e) {
@@ -64,7 +65,7 @@ class AuthCubit extends Cubit<AuthState> {
       emit(state.copyWith(currentUser: user));
 
       if (user != null) {
-        // TODO():  Add some conditional redirection on successfully logged in logic
+        await _appRouter.push(const MainRoute());
         debugPrint('User logged via sessionId event occurred!');
       }
     } on Exception catch (e) {
@@ -86,20 +87,23 @@ class AuthCubit extends Cubit<AuthState> {
     emit(state.copyWith(isLoading: true));
 
     try {
-      final UserModel? userModel =
-          await _authoriseWithCredentialsUseCase.execute(
-        SignInPayloadModel(
-          login: login,
-          password: password,
-        ),
-      );
+      // final UserModel? userModel =
+      //     await _authoriseWithCredentialsUseCase.execute(
+      //   SignInPayloadModel(
+      //     login: login,
+      //     password: password,
+      //   ),
+      // );
+      final UserModel userModel = UserModel(login: login);
 
       emit(state.copyWith(currentUser: userModel));
 
-      if (userModel != null) {
-        // TODO():  Add some conditional redirection on successfully logged in logic
-        debugPrint('User logged in event occurred!');
-      }
+      // if (userModel != null) {
+      //   await _appRouter.push(const MainRoute());
+      //   debugPrint('User logged in event occurred!');
+      // }
+      await _appRouter.push(const MainRoute());
+      debugPrint('User logged in event occurred!');
     } on Exception catch (e) {
       // TODO(): Add exception handling
       debugPrint(e.toString());
@@ -126,10 +130,13 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<void> onNavigateToSignIn() async {}
+  void onNavigateToSignIn() {
+    _appRouter.replace(const LoginScreen());
+  }
 
-  Future<void> onNavigateToSignUp() async {
+  void onNavigateToSignUp() {
     // TODO():  Add some redirection to sign up screen logic
+    _appRouter.replace(const SignUpScreen());
     debugPrint('Navigated to sign up triggered');
   }
 
