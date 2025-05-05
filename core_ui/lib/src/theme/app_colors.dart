@@ -30,6 +30,8 @@ abstract class AppColors {
 
   Color get searchBarColor;
 
+  Color get hyperLinkColor;
+
   LinearGradient get shimmerGradient;
 }
 
@@ -71,6 +73,10 @@ class LightColors implements AppColors {
 
   @override
   Color get searchBarColor => Colors.white;
+
+    @override
+  Color get hyperLinkColor => Colors.blue;
+
 
   @override
   LinearGradient get shimmerGradient => const LinearGradient(

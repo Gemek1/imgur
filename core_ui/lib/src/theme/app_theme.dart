@@ -8,14 +8,25 @@ final ThemeData lightTheme = ThemeData.light().copyWith(
   scaffoldBackgroundColor: _appColors.white,
   appBarTheme: _getAppBarTheme(),
   textTheme: _getTextTheme(),
+  textButtonTheme: _getTextButtonTheme(),
+  elevatedButtonTheme: _getElevatedButtonThemeData(),
   inputDecorationTheme: _getInputDecorationTheme(),
   bottomNavigationBarTheme: _getBottomNavigationTheme(),
   primaryColor: _appColors.primaryBg,
-  colorScheme: ColorScheme.fromSwatch().copyWith(
-    secondary: _appColors.primaryBg,
-    primary: _appColors.primaryBg,
-  ),
 );
+
+ElevatedButtonThemeData _getElevatedButtonThemeData() {
+  return ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      backgroundColor: _appColors.primaryBg,
+      foregroundColor: _appColors.black,
+      textStyle: AppFonts.normal13,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppDimens.BORDER_RADIUS_12),
+      ),
+    ),
+  );
+}
 
 AppBarTheme _getAppBarTheme() {
   return AppBarTheme(
@@ -42,15 +53,25 @@ TextTheme _getTextTheme() {
     titleMedium: AppFonts.normal13,
     bodyMedium: AppFonts.normal13,
     titleLarge: AppFonts.normal20,
+    bodyLarge: AppFonts.normal13,
   ).apply(
     bodyColor: _appColors.black,
     displayColor: _appColors.black,
   );
 }
 
+TextButtonThemeData _getTextButtonTheme() {
+  return TextButtonThemeData(
+    style: TextButton.styleFrom(
+      foregroundColor: _appColors.hyperLinkColor,
+      textStyle: AppFonts.normal13,
+    ),
+  );
+}
+
 InputDecorationTheme _getInputDecorationTheme() {
   return InputDecorationTheme(
-    hintStyle: AppFonts.normal13.copyWith(color: _appColors.primaryBg),
+    hintStyle: AppFonts.normal13.copyWith(color: Colors.grey),
     border: OutlineInputBorder(
       borderRadius: const BorderRadius.all(
         Radius.circular(AppDimens.BORDER_RADIUS_12),
@@ -87,6 +108,6 @@ InputDecorationTheme _getInputDecorationTheme() {
         width: 2,
       ),
     ),
-    labelStyle: AppFonts.normal13.copyWith(color: _appColors.primaryBg),
+    labelStyle: AppFonts.normal13.copyWith(color: Colors.black),
   );
 }
