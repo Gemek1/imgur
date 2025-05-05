@@ -1,4 +1,4 @@
-import 'package:auth/src/domain/lib/domain.dart';
+import '../../../../domain/lib/domain.dart';
 
 import '../entities/entities.dart';
 import '../mappers/mappers.dart';
@@ -39,12 +39,5 @@ class AuthorizationRepositoryImpl implements AuthorizationRepository {
   }
 
   @override
-  Future<UserModel?> signInWithSessionId() async {
-    final UserEntity? userEntity = await _authProvider.signInWithSessionId();
-
-    return UserMapper.fromEntity(userEntity);
-  }
-
-  @override
-  Future<void> signOut() async => await _authProvider.signOut();
+  Future<void> signOut() async => _authProvider.signOut();
 }

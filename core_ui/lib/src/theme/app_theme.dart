@@ -13,22 +13,16 @@ final ThemeData lightTheme = ThemeData.light().copyWith(
   inputDecorationTheme: _getInputDecorationTheme(),
   bottomNavigationBarTheme: _getBottomNavigationTheme(),
   primaryColor: _appColors.primaryBg,
-  colorScheme: ColorScheme.fromSwatch().copyWith(
-    secondary: _appColors.primaryBg,
-    primary: _appColors.primaryBg,
-  ),
 );
 
 ElevatedButtonThemeData _getElevatedButtonThemeData() {
   return ElevatedButtonThemeData(
-    style: ButtonStyle(
-      backgroundColor: WidgetStateProperty.all(_appColors.primaryBg),
-      foregroundColor: WidgetStateProperty.all(_appColors.black),
-      textStyle: WidgetStateProperty.all(AppFonts.normal13),
-      shape: WidgetStateProperty.all(
-        RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppDimens.BORDER_RADIUS_12),
-        ),
+    style: ElevatedButton.styleFrom(
+      backgroundColor: _appColors.primaryBg,
+      foregroundColor: _appColors.black,
+      textStyle: AppFonts.normal13,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppDimens.BORDER_RADIUS_12),
       ),
     ),
   );
@@ -68,9 +62,9 @@ TextTheme _getTextTheme() {
 
 TextButtonThemeData _getTextButtonTheme() {
   return TextButtonThemeData(
-    style: ButtonStyle(
-      foregroundColor: WidgetStateProperty.all(_appColors.hyperLinkColor),
-      textStyle: WidgetStateProperty.all(AppFonts.normal13),
+    style: TextButton.styleFrom(
+      foregroundColor: _appColors.hyperLinkColor,
+      textStyle: AppFonts.normal13,
     ),
   );
 }

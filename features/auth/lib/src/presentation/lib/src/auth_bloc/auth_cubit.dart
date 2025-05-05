@@ -8,27 +8,24 @@ part 'auth_state.dart';
 class AuthCubit extends Cubit<AuthState> {
   final AppRouter _appRouter;
   final SignUpWithCredentialsUseCase _signUpWithCredentialsUseCase;
-  final SignInWithSessionIdUseCase _authoriseWithSessionIdUseCase;
-  final SignInWithCredentialsUseCase _authoriseWithCredentialsUseCase;
   final SignOutUseCase _signOutUseCase;
   final GetCurrentUserUsecase _getCurrentUserUseCase;
 
   AuthCubit(
     this._appRouter,
     this._signUpWithCredentialsUseCase,
-    this._authoriseWithSessionIdUseCase,
-    this._authoriseWithCredentialsUseCase,
     this._signOutUseCase,
     this._getCurrentUserUseCase,
   ) : super(const AuthState.initial());
 
-  Future<void> onSignUpWithCredentials(
-      {required String login, required String password}) async {
+  Future<void> onSignUpWithCredentials({
+    required String login,
+    required String password,
+  }) async {
     if (!_isCredentialsValid(
       login: login,
       password: password,
     )) {
-      // TODO():  Add unsupported formatting handling
       return;
     }
 
@@ -45,37 +42,20 @@ class AuthCubit extends Cubit<AuthState> {
       emit(state.copyWith(currentUser: createdUser));
 
       if (createdUser != null) {
-        // TODO():  Add some conditional redirection on successfully signed up logic
         await _appRouter.replace(const LoginScreen());
         debugPrint('User signed up event occurred!');
       }
     } on Exception catch (e) {
-      // TODO(): Add exception handling
       debugPrint(e.toString());
     } finally {
       emit(state.copyWith(isLoading: false));
     }
   }
 
-  Future<void> onSignInWithSessionId() async {
-    try {
-      final UserModel? user =
-          await _authoriseWithSessionIdUseCase.execute(const NoParams());
-
-      emit(state.copyWith(currentUser: user));
-
-      if (user != null) {
-        await _appRouter.push(const MainRoute());
-        debugPrint('User logged via sessionId event occurred!');
-      }
-    } on Exception catch (e) {
-      // TODO(): Add exception handling
-      debugPrint(e.toString());
-    }
-  }
-
-  Future<void> onSignInWithCredentials(
-      {required String login, required String password}) async {
+  Future<void> onSignInWithCredentials({
+    required String login,
+    required String password,
+  }) async {
     if (!_isCredentialsValid(
       login: login,
       password: password,
@@ -87,25 +67,13 @@ class AuthCubit extends Cubit<AuthState> {
     emit(state.copyWith(isLoading: true));
 
     try {
-      // final UserModel? userModel =
-      //     await _authoriseWithCredentialsUseCase.execute(
-      //   SignInPayloadModel(
-      //     login: login,
-      //     password: password,
-      //   ),
-      // );
       final UserModel userModel = UserModel(login: login);
 
       emit(state.copyWith(currentUser: userModel));
 
-      // if (userModel != null) {
-      //   await _appRouter.push(const MainRoute());
-      //   debugPrint('User logged in event occurred!');
-      // }
-      await _appRouter.push(const MainRoute());
+      await _appRouter.replace(const MainRoute());
       debugPrint('User logged in event occurred!');
     } on Exception catch (e) {
-      // TODO(): Add exception handling
       debugPrint(e.toString());
     } finally {
       emit(state.copyWith(isLoading: false));
@@ -125,7 +93,6 @@ class AuthCubit extends Cubit<AuthState> {
 
       emit(state.copyWith(currentUser: currentUser));
     } on Exception catch (e) {
-      // TODO(): Add exception handling
       debugPrint(e.toString());
     }
   }
@@ -135,12 +102,10 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   void onNavigateToSignUp() {
-    // TODO():  Add some redirection to sign up screen logic
     _appRouter.replace(const SignUpScreen());
     debugPrint('Navigated to sign up triggered');
   }
 
-// TODO(): Add your own validation condition
   bool _isCredentialsValid({
     required String login,
     required String password,
@@ -165,14 +130,12 @@ class AuthCubit extends Cubit<AuthState> {
     return true;
   }
 
-// TODO(): Add your own validation condition
   bool _isLoginValid(String email) {
     return RegExp(
             r"^[a-zA-Z0-9.a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
         .hasMatch(email);
   }
 
-// TODO(): Add your own validation condition
   bool _isPasswordValid(String password) {
     if (password.length < 8 || password.length > 20) return false;
     return true;
